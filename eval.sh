@@ -3,9 +3,6 @@ GREEN='\033[0;32m'
 NC='\033[0m'  # No Color
 
 # 模型
-models=('vicuna-7b' 'llama-2-7b' 'llama-2-7b-chat' 'mistral-7b' 'mistral-7b-instruct' 'chatglm3-6b-base' 'chatglm3-6b')
-models=('vicuna-13b' 'llama-2-13b' 'llama-2-13b-chat')
-models=('vicuna-33b')
 models=('llama-2-7b' 'llama-2-7b-chat' 'llama-3-8b-instruct' 'mistral-7b' 'mistral-7b-instruct' 'chatglm3-6b-base' 'chatglm3-6b')
 
 # 定义最大GPU数

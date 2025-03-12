@@ -63,7 +63,19 @@ def read_file(file_name, split_str=None, fraction=None):
             return data
 
 
+def convert_np(obj):
+    if isinstance(obj, (np.int32, np.int64)):
+        return int(obj)
+    elif isinstance(obj, (np.float32, np.float64)):
+        return float(obj)
+    return obj
+
+
 def write_file(file_name, data, split_str=None):
+    parent_dir = os.path.dirname(file_name)  # 获取父目录
+    if not os.path.exists(parent_dir):
+        os.makedirs(parent_dir)
+
     if type(data) is list:
         lists = data
         if 'jsonl' in file_name:

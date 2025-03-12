@@ -100,7 +100,7 @@ def get_args():
     # Data
     parser.add_argument('--dataset', default='WDCT', choices=['WDCT', 'WDCT_NE'], type=str, help='Dataset to be evaluated.')
     parser.add_argument('--data_path', default=None, type=str)
-    parser.add_argument('--demo_path', default=None, type=str)
+    parser.add_argument('--demo_path', default='data/reference/demo.csv', type=str)
     parser.add_argument('--sample_num', type=int, default=-1, help="Sample some items to test.")
 
     # Path

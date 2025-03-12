@@ -3,7 +3,7 @@
 
 # Train Settings
 model_names=('mistral-7b' 'mistral-7b-instruct' 'chatglm3-6b-base' 'chatglm3-6b')
-name_or_paths=('/chubao/tj-data-ssd-03/xuruoxi/ckpt/hf/Mistral-7B-v0.1' '/chubao/tj-data-ssd-03/xuruoxi/ckpt/hf/Mistral-7B-Instruct-v0.3' '/chubao/tj-data-ssd-03/xuruoxi/ckpt/hf/chatglm-6b-base' '/chubao/tj-data-ssd-03/xuruoxi/ckpt/hf/chatglm3-6b')
+name_or_paths=('/path/to/Mistral-7B-v0.1' '/path/to/Mistral-7B-Instruct-v0.3' '/path/to/chatglm-6b-base' '/path/to/chatglm3-6b')
 datasets=('WDCT_NE' 'WDCT_NE' 'WDCT_NE' 'WDCT_NE')
 sft_lrs=('1e-5' '1e-6' '1e-5' '1e-5')
 dpo_lrs=('5e-7' '5e-7' '5e-6' '5e-6')
@@ -20,11 +20,11 @@ for i in "${!model_names[@]}"; do
     change="${changes[$i]}"
 
     # Infer
-#    CUDA_VISIBLE_DEVICES=0,6 python eval/test_local_models.py \
-#      --model ${model_name} \
-#      --dataset ${dataset} \
-#      --batch_size 32 \
-#      --run_time 1
+    python eval/test_local_models.py \
+      --model ${model_name} \
+      --dataset ${dataset} \
+      --batch_size 32 \
+      --run_time 1
 
     # Train
     for train_mode in "${train_modes[@]}"
@@ -37,7 +37,7 @@ for i in "${!model_names[@]}"; do
 
       #模型训练
       if [ ${train_mode} = 'sft' ]; then
-        CUDA_VISIBLE_DEVICES=0,6 python train.py \
+        python train.py \
           model=${model_name} \
           model.name_or_path=${name_or_path} \
           datasets="[${dataset}]" \
@@ -55,7 +55,7 @@ for i in "${!model_names[@]}"; do
           trainer=BasicTrainer \
           sample_during_eval=False 2>&1 | tee "$log_file"
       elif [ ${train_mode} = 'dpo' ]; then
-        CUDA_VISIBLE_DEVICES=0,6 python train.py \
+        python train.py \
           model=${model_name} \
           model.name_or_path=${name_or_path} \
           model.archive=${sft_model_path} \
@@ -77,7 +77,7 @@ for i in "${!model_names[@]}"; do
       fi
 
       #训练后的模型推理
-      CUDA_VISIBLE_DEVICES=0,6 python eval/test_local_models.py \
+      python eval/test_local_models.py \
         --model ${model_name} \
         --model_path ${model_path} \
         --result_path ${result_path} \
